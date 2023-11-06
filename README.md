@@ -32,9 +32,6 @@ class BTree:
   # Insert node
   def insert(self, k):
     root = self.root
-    if len(root.keys) == (2 * self.t) - 1:
-      temp = BTreeNode()
-      self.root = temp
       temp.child.insert(0, root)
       self.split_child(temp, 0)
       self.insert_non_full(temp, k)
@@ -65,14 +62,9 @@ class BTree:
     t = self.t
     y = x.child[i]
     z = BTreeNode(y.leaf)
-    x.child.insert(i + 1, z)
-    x.keys.insert(i, y.keys[t - 1])
-    z.keys = y.keys[t: (2 * t) - 1]
-    y.keys = y.keys[0: t - 1]
     if not y.leaf:
       z.child = y.child[t: 2 * t]
       y.child = y.child[0: t - 1]
-
   # Print the tree
   def print_tree(self, x, l=0):
     print("Level ", l, " ", len(x.keys), end=":")
@@ -83,17 +75,12 @@ class BTree:
     if len(x.child) > 0:
       for i in x.child:
         self.print_tree(i, l)
-
   # Search key in the tree
   def search_key(self, k, x=None):
     if x is not None:
       i = 0
       while i < len(x.keys) and k > x.keys[i][0]:
         i += 1
-      if i < len(x.keys) and k == x.keys[i][0]:
-        return (x, i)
-      elif x.leaf:
-        return None
       else:
         return self.search_key(k, x.child[i]) 
     else:
@@ -107,7 +94,6 @@ def main():
     print("\nFound")
   else:
     print("\nNot Found")
-
 if __name__ == '__main__':
   main()
 ```
