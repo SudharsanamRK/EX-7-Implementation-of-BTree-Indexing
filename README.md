@@ -1,7 +1,6 @@
 # EX 7: Implementation of B-Tree Indexing
-## Date: 
-## AIM: 
-To implement B-tree indexing and to search an element in the B-tree using python
+## Date: 15/09/2023
+## AIM: To implement B-tree indexing and to search an element in the B-tree using python
 ## ALGORITHM:
 <div align="justify">
 1. Starting from the root node, compare k with the first key of the node.<br>
@@ -13,8 +12,8 @@ If k < next key, search the left child of this key (ie. k lies in between the fi
 Else, search the right child of the key.<br>
 5. Repeat steps 1 to 4 until the leaf is reached.<br>
 </div>
-## PROGRAM:
   
+## PROGRAM:
   ```python
 # Searching a key on a B-tree in Python
 # Create a node
@@ -24,14 +23,13 @@ class BTreeNode:
     self.keys = []
     self.child = []
 
-
 # Tree
 class BTree:
   def __init__(self, t):
     self.root = BTreeNode(True)
     self.t = t
 
-    # Insert node
+  # Insert node
   def insert(self, k):
     root = self.root
     if len(root.keys) == (2 * self.t) - 1:
@@ -43,7 +41,7 @@ class BTree:
     else:
       self.insert_non_full(root, k)
 
-    # Insert nonfull
+  # Insert nonfull
   def insert_non_full(self, x, k):
     i = len(x.keys) - 1
     if x.leaf:
@@ -62,7 +60,7 @@ class BTree:
           i += 1
       self.insert_non_full(x.child[i], k)
 
-    # Split the child
+  # Split the child
   def split_child(self, x, i):
     t = self.t
     y = x.child[i]
@@ -97,25 +95,18 @@ class BTree:
       elif x.leaf:
         return None
       else:
-        return self.search_key(k, x.child[i])
-      
+        return self.search_key(k, x.child[i]) 
     else:
       return self.search_key(k, self.root)
-
-
 def main():
   B = BTree(3)
-
   for i in range(10):
     B.insert((i, 2 * i))
-
   B.print_tree(B.root)
-
   if B.search_key(8) is not None:
     print("\nFound")
   else:
     print("\nNot Found")
-
 
 if __name__ == '__main__':
   main()
